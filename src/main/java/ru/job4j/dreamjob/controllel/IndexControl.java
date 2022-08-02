@@ -11,3 +11,4 @@ public class IndexControl {
         return "Greetings from Spring Boot!";
     }
 }
+
