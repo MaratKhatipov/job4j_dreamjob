@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:HH="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты!</title>
+    <title>Работа мечты</title>
 </head>
 <body>
 <div class="container">
@@ -34,24 +34,21 @@
         </div>
     </nav>
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">id </th>
-                <th scope="col">Name </th>
-                <th scope="col">Desc </th>
-                <th scope="col">Date created </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="var : ${candid}">
-                <td th:text="${var.idCandidate}"></td>
-                <td th:text="${var.name}"></td>
-                <td th:text="${var.desc}"></td>
-                <td th:text="${#temporals.format(var.created)}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Новая вакансия.
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label>Имя
+                            <input type="text" class="form-control">
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>
