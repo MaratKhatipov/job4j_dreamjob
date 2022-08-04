@@ -12,12 +12,18 @@ public class Candidate {
     public Candidate() {
     }
 
+    public Candidate(int idCandidate, String name) {
+        this.idCandidate = idCandidate;
+        this.name = name;
+    }
+
     public Candidate(int idCandidate, String name, String desc, LocalDateTime created) {
         this.idCandidate = idCandidate;
         this.name = name;
         this.desc = desc;
         this.created = created;
     }
+
 
     public int getIdCandidate() {
         return idCandidate;
