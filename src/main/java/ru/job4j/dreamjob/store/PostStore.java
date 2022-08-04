@@ -3,6 +3,7 @@ package ru.job4j.dreamjob.store;
 
 import ru.job4j.dreamjob.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -14,15 +15,10 @@ public class PostStore {
     private static final PostStore INST = new PostStore();
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
-
-    Calendar juniorCalendar = new GregorianCalendar(2022, Calendar.JANUARY, 17, 10, 26, 36);
-    Calendar middleCalendar = new GregorianCalendar(2022, Calendar.AUGUST, 1, 8, 2, 48);
-    Calendar seniorCalendar = Calendar.getInstance();
-
     private PostStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Работа начинающим программистом ", juniorCalendar));
-        posts.put(2, new Post(2, "Middle Java Job", "Работа для тех у кого есть опыт ", middleCalendar));
-        posts.put(3, new Post(3, "Senior Java Job", "Для Супер-Мега разработчиков ", seniorCalendar));
+        posts.put(1, new Post(1, "Junior Java Job", "Работа начинающим программистом ", LocalDateTime.of(2022, 1, 17, 8, 32)));
+        posts.put(2, new Post(2, "Middle Java Job", "Работа для тех у кого есть опыт ", LocalDateTime.of(2022, 8, 1, 10, 26)));
+        posts.put(3, new Post(3, "Senior Java Job", "Для Супер-Мега разработчиков ", LocalDateTime.now()));
     }
 
     public static PostStore instOf() {
