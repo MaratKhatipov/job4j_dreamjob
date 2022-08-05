@@ -13,11 +13,6 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Post(int id, String name, String description, LocalDateTime created) {
         this.id = id;
         this.name = name;
@@ -74,6 +69,16 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, created);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", description='" + description + '\''
+                + ", created=" + created
+                + '}';
     }
 }
 
