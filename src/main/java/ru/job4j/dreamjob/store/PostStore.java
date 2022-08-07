@@ -31,9 +31,8 @@ public class PostStore {
     }
 
     public void add(Post post) {
-        num.incrementAndGet();
-        post.setId(num.get());
+        post.setId(num.incrementAndGet());
         post.setCreated(LocalDateTime.now());
-        posts.put(num.get(), post);
+        posts.put(post.getId(), post);
     }
 }
