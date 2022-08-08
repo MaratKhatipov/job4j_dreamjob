@@ -27,7 +27,6 @@ public class CandidateStore {
     }
 
     public Collection<Candidate> findAll() {
-        System.out.println(candidates.values());
         return candidates.values();
     }
 
