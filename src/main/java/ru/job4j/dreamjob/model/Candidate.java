@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Candidate {
-    private int idCandidate;
+    private int id;
     private String name;
     private String desc;
     private LocalDateTime created;
@@ -12,25 +12,21 @@ public class Candidate {
     public Candidate() {
     }
 
-    public Candidate(int idCandidate, String name) {
-        this.idCandidate = idCandidate;
-        this.name = name;
-    }
 
-    public Candidate(int idCandidate, String name, String desc, LocalDateTime created) {
-        this.idCandidate = idCandidate;
+    public Candidate(int id, String name, String desc, LocalDateTime created) {
+        this.id = id;
         this.name = name;
         this.desc = desc;
         this.created = created;
     }
 
 
-    public int getIdCandidate() {
-        return idCandidate;
+    public int getId() {
+        return id;
     }
 
-    public void setIdCandidate(int idCandidate) {
-        this.idCandidate = idCandidate;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -66,18 +62,18 @@ public class Candidate {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return idCandidate == candidate.idCandidate;
+        return id == candidate.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCandidate);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Candidate{"
-                + "idCandidate=" + idCandidate
+                + "id=" + id
                 + ", name='" + name + '\''
                 + ", desc='" + desc + '\''
                 + ", created=" + created
