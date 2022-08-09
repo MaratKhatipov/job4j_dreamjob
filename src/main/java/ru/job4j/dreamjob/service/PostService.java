@@ -1,25 +1,18 @@
 package ru.job4j.dreamjob.service;
 
+import org.springframework.stereotype.Service;
 import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.PostStore;
 
 import java.util.Collection;
 
-/**
- * Класс является сервисом, выполняет бизнес логику
- * организуйте слои в приложении "Работа мечты". PostController, PostService, PostStore.
- * PostService вызывает методы класса PostStore.
- */
+@Service
 public class PostService {
 
-    private static final PostService INST = new PostService();
-    private final PostStore store = PostStore.instOf();
+    private final PostStore store;
 
-    public PostService() {
-    }
-
-    public static PostService instanceOf() {
-        return INST;
+    public PostService(PostStore store) {
+        this.store = store;
     }
 
     public Collection<Post> findAll() {

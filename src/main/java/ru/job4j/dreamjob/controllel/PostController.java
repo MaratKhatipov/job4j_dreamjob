@@ -14,11 +14,15 @@ import java.time.LocalDateTime;
 @Controller
 public class PostController {
 
-    private final PostService store = PostService.instanceOf();
+    private final PostService postService;
+
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @GetMapping("/posts")
     public String posts(Model model) {
-        model.addAttribute("posts", store.findAll());
+        model.addAttribute("posts", postService.findAll());
         return "posts";
     }
 
@@ -30,19 +34,19 @@ public class PostController {
 
     @PostMapping("/createPost")
     public String creatPost(@ModelAttribute Post post) {
-        store.add(post);
+        postService.add(post);
         return "redirect:/posts";
     }
 
     @GetMapping("/formUpdatePost/{postId}")
     public String formUpdatePost(Model model, @PathVariable ("postId") int id) {
-        model.addAttribute("post", store.findById(id));
+        model.addAttribute("post", postService.findById(id));
         return "updatePost";
     }
 
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
-        store.update(post);
+        postService.update(post);
         return "redirect:/posts";
     }
 }

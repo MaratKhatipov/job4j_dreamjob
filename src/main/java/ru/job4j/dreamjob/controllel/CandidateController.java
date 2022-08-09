@@ -14,11 +14,15 @@ import java.time.LocalDateTime;
 @Controller
 public class CandidateController {
 
-    private final CandidateService store = CandidateService.instanceOf();
+    private final CandidateService candidateService;
+
+    public CandidateController(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
 
     @GetMapping("/candidates")
     public String candidates(Model model) {
-        model.addAttribute("candid", store.findAll());
+        model.addAttribute("candid", candidateService.findAll());
         return "candidates";
     }
 
@@ -30,19 +34,19 @@ public class CandidateController {
 
     @PostMapping("/createCandidate")
     public String creatCandidate(@ModelAttribute Candidate candidate) {
-        store.add(candidate);
+        candidateService.add(candidate);
         return "redirect:/candidates";
     }
 
     @GetMapping("/formUpdateCandidate/{id}")
     public String formUpdateCandidate(Model model, @PathVariable("id") int id) {
-        model.addAttribute("candidate", store.findById(id));
+        model.addAttribute("candidate", candidateService.findById(id));
         return "updateCandidate";
     }
 
     @PostMapping("/updateCandidate")
     public String updateCandidate(@ModelAttribute Candidate candidate) {
-        store.update(candidate);
+        candidateService.update(candidate);
         return "redirect:/candidates";
     }
 }

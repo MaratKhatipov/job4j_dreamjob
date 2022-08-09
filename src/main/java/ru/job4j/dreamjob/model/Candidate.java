@@ -9,10 +9,6 @@ public class Candidate {
     private String desc;
     private LocalDateTime created;
 
-    public Candidate() {
-    }
-
-
     public Candidate(int id, String name, String desc, LocalDateTime created) {
         this.id = id;
         this.name = name;
