@@ -42,6 +42,6 @@ public class CandidateStore {
 
     public void update(Candidate candidate) {
         candidate.setCreated(LocalDateTime.now());
-        candidates.put(candidate.getId(), candidate);
+        candidates.replace(candidate.getId(), candidate);
     }
 }
