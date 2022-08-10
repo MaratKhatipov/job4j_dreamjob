@@ -8,12 +8,14 @@ public class Candidate {
     private String name;
     private String desc;
     private LocalDateTime created;
+    private byte[] photo;
 
-    public Candidate(int id, String name, String desc, LocalDateTime created) {
+    public Candidate(int id, String name, String desc, LocalDateTime created, byte[] photo) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.created = created;
+        this.photo = photo;
     }
 
 
@@ -47,6 +49,14 @@ public class Candidate {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override
