@@ -54,7 +54,7 @@
                         <label for="city.id">Город</label>
                         <select class="form-control" id="city.id" name="city.id">
                             <option th:each="city : ${cities}" th:value="${city.id}"
-                                    th:text="${city.name}" th:selected="${city.id == post.id}">
+                                    th:text="${city.name}" th:selected="${city.id == post.city.id}">
                             </option>
                         </select>
                     </div>
