@@ -9,7 +9,6 @@ import ru.job4j.dreamjob.service.CityService;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Repository

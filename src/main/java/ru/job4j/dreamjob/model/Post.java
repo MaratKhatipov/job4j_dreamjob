@@ -11,7 +11,7 @@ public class Post implements Serializable {
     private LocalDateTime created;
     private boolean visible;
     private City city;
-//    private int cityId;
+
     public Post() {
     }
 
@@ -76,13 +76,6 @@ public class Post implements Serializable {
         this.city = city;
     }
 
-//    public int getCityId() {
-//        return cityId;
-//    }
-//
-//    public void setCityId(int cityId) {
-//        this.cityId = cityId;
-//    }
 
     @Override
     public boolean equals(Object o) {
