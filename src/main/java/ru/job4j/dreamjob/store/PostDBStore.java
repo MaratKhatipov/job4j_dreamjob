@@ -1,6 +1,8 @@
 package ru.job4j.dreamjob.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Repository
 public class PostDBStore {
+    private static final Logger LOG_P_DB_STORE = LoggerFactory.getLogger(PostDBStore.class.getName());
 
     private final BasicDataSource pool;
 
@@ -34,8 +37,8 @@ public class PostDBStore {
                     posts.add(post);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOG_P_DB_STORE.error("findAll, SQLException - ", e);
         }
         return posts;
     }
@@ -57,8 +60,8 @@ public class PostDBStore {
                     post.setId(id.getInt(1));
                 }
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+    } catch (SQLException e) {
+            LOG_P_DB_STORE.error("add, SQLException - ", e);
         }
         return post;
     }
@@ -78,8 +81,8 @@ public class PostDBStore {
                     return post;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOG_P_DB_STORE.error("findById, SQLException - ", e);
         }
         return null;
     }
@@ -102,8 +105,8 @@ public class PostDBStore {
             ps.setInt(6, post.getId());
             ps.execute();
             System.out.println(post);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOG_P_DB_STORE.error("update, SQLException - ", e);
         }
     }
 }
