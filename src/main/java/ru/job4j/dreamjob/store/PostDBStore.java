@@ -49,9 +49,10 @@ public class PostDBStore {
                 "INSERT INTO post(name, description, created, visible, city_id) VALUES (?, ?, ?, ?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
+            LocalDateTime now = LocalDateTime.now();
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
-            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setTimestamp(3, Timestamp.valueOf(now));
             ps.setBoolean(4, post.isVisible());
             ps.setInt(5, post.getCity().getId());
             ps.execute();
@@ -109,4 +110,15 @@ public class PostDBStore {
             LOG_P_DB_STORE.error("update, SQLException - ", e);
         }
     }
+
+     public void reset() {
+         try (Connection cn = pool.getConnection();
+              PreparedStatement ps =  cn.prepareStatement("delete from post")
+         ) {
+             ps.execute();
+         } catch (Exception e) {
+             LOG_P_DB_STORE.error("Error:", e);
+         }
+     }
+
 }
