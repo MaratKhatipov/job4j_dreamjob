@@ -39,7 +39,7 @@ public class UserDBStore {
     }
 
     public Optional<User> add(User user) {
-        Optional<User> result = Optional.of(user);
+        Optional<User> result = Optional.empty();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("""
 INSERT INTO users(email, password) VALUES (?, ?)
@@ -51,9 +51,9 @@ INSERT INTO users(email, password) VALUES (?, ?)
                 if (id.next()) {
                     user.setId(1);
                 }
+                result = Optional.of(user);
             }
         } catch (SQLException e) {
-            result = Optional.empty();
             LOG_U_DB_STORE.error("add, SQLException", e);
         }
         return result;
@@ -92,4 +92,5 @@ SELECT FROM users WHERE id = ?
         }
         return user;
     }
+
 }
