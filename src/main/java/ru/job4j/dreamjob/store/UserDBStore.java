@@ -93,4 +93,26 @@ SELECT FROM users WHERE id = ?
         return user;
     }
 
+    public Optional<User> findByEmailAndPwd(String email, String password) {
+        Optional<User> result = Optional.empty();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("""
+SELECT id, email, password FROM users WHERE email = ? and password = ?
+""", PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return Optional.of(new User(
+                            it.getInt("id"),
+                            it.getString("email"),
+                            it.getString("password"))
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            LOG_U_DB_STORE.error("SQLException in findByEmailAndPwd", e);
+        }
+        return result;
+    }
 }
