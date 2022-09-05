@@ -16,6 +16,21 @@ public class CandidateDBStore {
     private static final Logger LOG_C_DB_STORE = LoggerFactory.getLogger(CandidateDBStore.class.getName());
     private final BasicDataSource pool;
 
+    private final static String FIND_ALL = """
+                                         SELECT * FROM candidate
+                                         """;
+    private final static String INSERT = """
+                                         INSERT INTO candidate(name, description, created, photo) VALUES (?, ?, ?, ?)
+                                         """;
+    private static final String FIND_BY_ID = """
+                                             SELECT * FROM candidate WHERE id = ?
+                                             """;
+    private final static String UPDATE = """
+                                         UPDATE candidate 
+                                         SET name = ?, description = ?, created = ?, photo = ?
+                                         where id = ?
+                                         """;
+
     public CandidateDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
@@ -23,8 +38,7 @@ public class CandidateDBStore {
     public List<Candidate> findAll() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-            PreparedStatement ps = cn.prepareStatement("select * from candidate")
-        ) {
+             PreparedStatement ps = cn.prepareStatement(FIND_ALL)) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Candidate candidate = new Candidate(
@@ -45,8 +59,7 @@ public class CandidateDBStore {
 
     public Candidate add(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(
-                     "insert into candidate(name, description, created, photo) VALUES (?, ?, ?, ?)",
+             PreparedStatement ps = cn.prepareStatement(INSERT,
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
@@ -67,8 +80,7 @@ public class CandidateDBStore {
 
     public Candidate findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE id = ?")
-        ) {
+             PreparedStatement ps = cn.prepareStatement(FIND_BY_ID)) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
 
@@ -91,14 +103,7 @@ public class CandidateDBStore {
 
     public void update(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(
-                     "UPDATE candidate SET "
-                             + "name = ?, "
-                             + "description = ?, "
-                             + "created = ?, "
-                             + "photo = ? "
-                             + "where id = ?"
-             )) {
+             PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getDesc());
             ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));

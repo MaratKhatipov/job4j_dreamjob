@@ -19,6 +19,25 @@ public class PostDBStore {
 
     private final BasicDataSource pool;
 
+    private final static String FIND_ALL = """
+                                           SELECT  * FROM  post
+                                           """;
+    private final static String INSERT = """
+                                         INSERT INTO post(name, description, created, visible, city_id) 
+                                         VALUES (?, ?, ?, ?, ?)
+                                         """;
+    private static final String FIND_BY_ID = """
+                                             SELECT * FROM post WHERE id = ?
+                                             """;
+    private final static String UPDATE = """
+                                         UPDATE post
+                                         SET name = ?,  description = ?,  created = ?, visible = ?, city_id = ?  
+                                         where id = ?
+                                         """;
+    private final static String DELETE = """
+                                         DELETE FROM post
+                                         """;
+
     public PostDBStore(BasicDataSource pool) {
         this.pool = pool;
     }
@@ -26,7 +45,7 @@ public class PostDBStore {
     public List<Post> findAll() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT  * FROM  post")
+             PreparedStatement ps = cn.prepareStatement(FIND_ALL)
         ) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -45,8 +64,7 @@ public class PostDBStore {
 
     public Post add(Post post) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement(
-                "INSERT INTO post(name, description, created, visible, city_id) VALUES (?, ?, ?, ?, ?)",
+        PreparedStatement ps = cn.prepareStatement(INSERT,
                 PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             LocalDateTime now = LocalDateTime.now();
@@ -69,7 +87,7 @@ public class PostDBStore {
 
     public Post findById(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
+             PreparedStatement ps =  cn.prepareStatement(FIND_BY_ID)
         ) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
@@ -90,14 +108,7 @@ public class PostDBStore {
 
     public void update(Post post) {
         try (Connection cn = pool.getConnection();
-        PreparedStatement ps = cn.prepareStatement(
-                "UPDATE post SET name = ?, "
-                        + "description = ?, "
-                        + "created = ?, "
-                        + "visible = ?, "
-                        + "city_id = ? "
-                        + "where id = ?"
-        )) {
+        PreparedStatement ps = cn.prepareStatement(UPDATE)) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
@@ -113,7 +124,7 @@ public class PostDBStore {
 
      public void reset() {
          try (Connection cn = pool.getConnection();
-              PreparedStatement ps =  cn.prepareStatement("delete from post")
+              PreparedStatement ps =  cn.prepareStatement(DELETE)
          ) {
              ps.execute();
          } catch (Exception e) {
