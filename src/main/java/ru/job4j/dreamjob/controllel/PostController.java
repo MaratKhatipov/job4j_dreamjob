@@ -11,8 +11,10 @@ import ru.job4j.dreamjob.model.City;
 import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.PostService;
+import ru.job4j.dreamjob.utill.Session;
 
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @ThreadSafe
@@ -28,13 +30,15 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String posts(Model model) {
+    public String posts(Model model, HttpSession session) {
+        Session.getHttpSession(model, session);
         model.addAttribute("posts", postService.findAll());
         return "posts";
     }
 
     @GetMapping("/formAddPost")
-    public String addPost(Model model) {
+    public String addPost(Model model, HttpSession session) {
+        Session.getHttpSession(model, session);
         model.addAttribute("post", new Post());
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";

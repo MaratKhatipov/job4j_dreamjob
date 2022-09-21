@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
+import ru.job4j.dreamjob.utill.Session;
 
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -28,13 +30,15 @@ public class CandidateController {
     }
 
     @GetMapping("/candidates")
-    public String candidates(Model model) {
+    public String candidates(Model model, HttpSession session) {
+        Session.getHttpSession(model, session);
         model.addAttribute("candid", candidateService.findAll());
         return "candidates";
     }
 
     @GetMapping("formAddCandidate")
-    public String addCandidate(Model model) {
+    public String addCandidate(Model model, HttpSession session) {
+        Session.getHttpSession(model, session);
         model.addAttribute("candidate", new Candidate(0, "Please fill in the field", "Description", LocalDateTime.now(), new byte[10]));
         return "addCandidate";
     }
