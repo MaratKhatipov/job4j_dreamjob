@@ -52,7 +52,8 @@ public class CandidateController {
     }
 
     @GetMapping("/formUpdateCandidate/{id}")
-    public String formUpdateCandidate(Model model, @PathVariable("id") int id) {
+    public String formUpdateCandidate(Model model, @PathVariable("id") int id, HttpSession session) {
+        Session.getHttpSession(model, session);
         model.addAttribute("candidate", candidateService.findById(id));
         return "updateCandidate";
     }
