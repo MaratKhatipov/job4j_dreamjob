@@ -6,9 +6,15 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AuthFilter implements Filter {
+    private static final List<String> END_POINTS = List.of(
+            "loginPage", "login",
+            "formRegisterUser", "registration",
+            "fail", "success");
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
@@ -16,10 +22,12 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         String uri = req.getRequestURI();
+
+
         /*
         Если запрос идет к адресам loginPage или login, то мы их пропускаем сразу.
          */
-        if (uri.endsWith("loginPage") || uri.endsWith("login")) {
+        if (checkEndPoint(uri)) {
             filterChain.doFilter(req, res);
             return;
         }
@@ -32,5 +40,9 @@ public class AuthFilter implements Filter {
             return;
         }
         filterChain.doFilter(req, res);
+    }
+
+    private boolean checkEndPoint(String requestUri) {
+        return END_POINTS.stream().anyMatch(requestUri::endsWith);
     }
 }
